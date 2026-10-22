@@ -33,7 +33,7 @@ public static class PlatformBuild
 	}
 
 	// Bundle identifier and Android backend; settings the project did not have. Change before publishing.
-	private const string BundleId = "com.shishkabob.cardwars";
+	private const string BundleId = "app.recompile.cardwars";
 
 	private static void ConfigureMobile(BuildTarget target)
 	{
