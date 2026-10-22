@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
 
@@ -17,6 +18,7 @@ public static class PlatformBuild
 			EditorApplication.Exit(2);
 			return;
 		}
+		ConfigureMobile(EditorUserBuildSettings.activeBuildTarget);
 		var options = new BuildPlayerOptions
 		{
 			scenes = EditorBuildSettings.scenes.Where(s => s.enabled).Select(s => s.path).ToArray(),
@@ -27,6 +29,23 @@ public static class PlatformBuild
 		BuildReport report = BuildPipeline.BuildPlayer(options);
 		Debug.Log("PlatformBuild result: " + report.summary.result + " (" + options.target + "), errors: " + report.summary.totalErrors + ", size: " + report.summary.totalSize);
 		EditorApplication.Exit(report.summary.result == BuildResult.Succeeded ? 0 : 1);
+	}
+
+	// Bundle identifier and Android backend; settings the project did not have. Change before publishing.
+	private const string BundleId = "com.shishkabob.cardwars";
+
+	private static void ConfigureMobile(BuildTarget target)
+	{
+		if (target == BuildTarget.Android)
+		{
+			PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.Android, BundleId);
+			PlayerSettings.SetScriptingBackend(NamedBuildTarget.Android, ScriptingImplementation.IL2CPP);
+			PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
+		}
+		else if (target == BuildTarget.iOS)
+		{
+			PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.iOS, BundleId);
+		}
 	}
 
 	private static string GetArg(string name)
