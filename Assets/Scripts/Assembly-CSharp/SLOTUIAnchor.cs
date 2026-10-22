@@ -169,16 +169,21 @@ public class SLOTUIAnchor : UIAnchor
 		rect.xMax /= num;
 		rect.yMax /= num;
 		float num2 = 640f / (float)Screen.height;
+		Rect positionRect = rect;
+		if (flag && side != Side.Center)
+		{
+			positionRect = SafeAreaUtil.Inset(rect);
+		}
 		if (anchorEnabled)
 		{
-			float x = (rect.xMin + rect.xMax) * 0.5f;
-			float y = (rect.yMin + rect.yMax) * 0.5f;
+			float x = (positionRect.xMin + positionRect.xMax) * 0.5f;
+			float y = (positionRect.yMin + positionRect.yMax) * 0.5f;
 			Vector3 vector4 = new Vector3(x, y, (!useDepthOffset) ? 0f : depthOffset);
 			if (side != Side.Center)
 			{
 				if (side == Side.Right || side == Side.TopRight || side == Side.BottomRight)
 				{
-					vector4.x = rect.xMax;
+					vector4.x = positionRect.xMax;
 				}
 				else if (side == Side.Top || side == Side.Center || side == Side.Bottom)
 				{
@@ -186,11 +191,11 @@ public class SLOTUIAnchor : UIAnchor
 				}
 				else
 				{
-					vector4.x = rect.xMin;
+					vector4.x = positionRect.xMin;
 				}
 				if (side == Side.Top || side == Side.TopRight || side == Side.TopLeft)
 				{
-					vector4.y = rect.yMax;
+					vector4.y = positionRect.yMax;
 				}
 				else if (side == Side.Left || side == Side.Center || side == Side.Right)
 				{
@@ -198,7 +203,7 @@ public class SLOTUIAnchor : UIAnchor
 				}
 				else
 				{
-					vector4.y = rect.yMin;
+					vector4.y = positionRect.yMin;
 				}
 			}
 			float width = rect.width;
