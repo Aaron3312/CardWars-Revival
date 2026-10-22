@@ -491,7 +491,7 @@ public class UIAtlasMaker : EditorWindow
 	{
 		// Get the texture for the atlas
 		Texture2D tex = atlas.texture as Texture2D;
-		string oldPath = (tex != null) ? AssetDatabase.GetAssetPath(tex.GetInstanceID()) : "";
+		string oldPath = (tex != null) ? AssetDatabase.GetAssetPath(tex) : "";
 		string newPath = NGUIEditorTools.GetSaveableTexturePath(atlas);
 
 		// Clear the read-only flag in texture file attributes
@@ -653,8 +653,8 @@ public class UIAtlasMaker : EditorWindow
 		// If we have an atlas to work with, see if we can figure out the path for it and its material
 		if (NGUISettings.atlas != null && NGUISettings.atlas.name == NGUISettings.atlasName)
 		{
-			prefabPath = AssetDatabase.GetAssetPath(NGUISettings.atlas.gameObject.GetInstanceID());
-			if (NGUISettings.atlas.spriteMaterial != null) matPath = AssetDatabase.GetAssetPath(NGUISettings.atlas.spriteMaterial.GetInstanceID());
+			prefabPath = AssetDatabase.GetAssetPath(NGUISettings.atlas.gameObject);
+			if (NGUISettings.atlas.spriteMaterial != null) matPath = AssetDatabase.GetAssetPath(NGUISettings.atlas.spriteMaterial);
 		}
 
 		// Assume default values if needed

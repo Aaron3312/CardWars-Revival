@@ -25,7 +25,6 @@ public class NcSpriteFactory : NcEffectBehaviour
 	}
 
 	[Serializable]
-	[SerializeField]
 	public class NcSpriteNode
 	{
 		public bool m_bIncludedAtlas = true;
@@ -127,7 +126,6 @@ public class NcSpriteFactory : NcEffectBehaviour
 		}
 	}
 
-	[SerializeField]
 	public enum MESH_TYPE
 	{
 		BuiltIn_Plane,

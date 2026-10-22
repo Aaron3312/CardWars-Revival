@@ -564,7 +564,7 @@ public class NGUIEditorTools
 	{
 		if (tex != null)
 		{
-			string path = AssetDatabase.GetAssetPath(tex.GetInstanceID());
+			string path = AssetDatabase.GetAssetPath(tex);
 			return ImportTexture(path, forInput, force);
 		}
 		return null;
@@ -582,7 +582,7 @@ public class NGUIEditorTools
 		// If the atlas already has a texture, overwrite its texture
 		if (atlas.texture != null)
 		{
-			path = AssetDatabase.GetAssetPath(atlas.texture.GetInstanceID());
+			path = AssetDatabase.GetAssetPath(atlas.texture);
 
 			if (!string.IsNullOrEmpty(path))
 			{
@@ -592,7 +592,7 @@ public class NGUIEditorTools
 		}
 
 		// No texture to use -- figure out a name using the atlas
-		path = AssetDatabase.GetAssetPath(atlas.GetInstanceID());
+		path = AssetDatabase.GetAssetPath(atlas);
 		path = string.IsNullOrEmpty(path) ? "Assets/" + atlas.name + ".png" : path.Replace(".prefab", ".png");
 		return path;
 	}
@@ -605,7 +605,7 @@ public class NGUIEditorTools
 	{
 		if (Selection.activeObject != null)
 		{
-			string path = AssetDatabase.GetAssetPath(Selection.activeObject.GetInstanceID());
+			string path = AssetDatabase.GetAssetPath(Selection.activeObject);
 
 			if (!string.IsNullOrEmpty(path))
 			{

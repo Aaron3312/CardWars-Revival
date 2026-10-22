@@ -72,7 +72,7 @@ public class PoolManager : MonoBehaviour
 
 	private static string GetPoolName(GameObject prefab)
 	{
-		return string.Format("{0}[{1}](Pool)", prefab.name, prefab.GetInstanceID());
+		return string.Format("{0}[{1}](Pool)", prefab.name, prefab.GetEntityId());
 	}
 
 	public static GameObject Fetch(GameObject prefab)
