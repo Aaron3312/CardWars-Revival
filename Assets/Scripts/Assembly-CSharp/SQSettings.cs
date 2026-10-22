@@ -113,15 +113,6 @@ public class SQSettings
 	{
 	}
 
-	[DllImport("__Internal")]
-	private static extern string getBundleIdentifier();
-
-	[DllImport("__Internal")]
-	private static extern string getCFBundleVersion();
-
-	[DllImport("__Internal")]
-	private static extern string getCFBundleShortVersion();
-
 	private static string getJsonPath(string filePath)
 	{
 		WWW wWW = null;

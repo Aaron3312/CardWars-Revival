@@ -84,48 +84,7 @@ public class AuthScreenController : MonoBehaviour
         {
             if (yes)
             {
-                WWW www = new WWW(SQSettings.SERVER_URL+ "account/create?user=" + PlayerPrefs.GetString("user") + "&pass=" + PlayerPrefs.GetString("pass"));
-                UnityEngine.Debug.Log("Attempting to create player account: " + www.url);
-
-                while (!www.isDone)
-                {
-                }
-
-                object response = null;
-
-
-                try
-                {
-                    response = MiniJSON.Json.Deserialize(www.text);
-                }
-                catch (Exception e)
-                {
-                    OnPlayerFailedToAuthenticate(www.error);
-                }
-
-                UnityEngine.Debug.Log(response);
-
-                if (response == null)
-                {
-                    UnityEngine.Debug.Log(www.error);
-                    OnPlayerFailedToAuthenticate(www.error);
-                }
-                else
-                {
-                    Dictionary<string, object> responseData = (Dictionary<string, object>)response;
-
-                    if (responseData.ContainsKey("success") && (bool)responseData["success"])
-                    {
-                        UnityEngine.Debug.Log("Account Created");
-						SocialLogin();
-                    }
-                    else
-                    {
-                        UnityEngine.Debug.Log("Authentication failed");
-                        OnPlayerFailedToAuthenticate((string)responseData["message"]);
-                    }
-                }
-
+                StartCoroutine(CreateAccountRoutine());
             }
             else
             {
@@ -211,12 +170,60 @@ public class AuthScreenController : MonoBehaviour
             PlayerPrefs.SetString("user", Username);
             PlayerPrefs.SetString("pass", Password);
 
+            StartCoroutine(AccountExistsRoutine());
+        }
+    }
+
+    private IEnumerator CreateAccountRoutine()
+    {
+                WWW www = new WWW(SQSettings.SERVER_URL+ "account/create?user=" + PlayerPrefs.GetString("user") + "&pass=" + PlayerPrefs.GetString("pass"));
+                UnityEngine.Debug.Log("Attempting to create player account: " + www.url);
+
+                yield return www;
+
+                object response = null;
+
+
+                try
+                {
+                    response = MiniJSON.Json.Deserialize(www.text);
+                }
+                catch (Exception e)
+                {
+                    OnPlayerFailedToAuthenticate(www.error);
+                }
+
+                UnityEngine.Debug.Log(response);
+
+                if (response == null)
+                {
+                    UnityEngine.Debug.Log(www.error);
+                    OnPlayerFailedToAuthenticate(www.error);
+                }
+                else
+                {
+                    Dictionary<string, object> responseData = (Dictionary<string, object>)response;
+
+                    if (responseData.ContainsKey("success") && (bool)responseData["success"])
+                    {
+                        UnityEngine.Debug.Log("Account Created");
+						SocialLogin();
+                    }
+                    else
+                    {
+                        UnityEngine.Debug.Log("Authentication failed");
+                        OnPlayerFailedToAuthenticate((string)responseData["message"]);
+                    }
+                }
+
+    }
+
+    private IEnumerator AccountExistsRoutine()
+    {
             WWW www = new WWW(SQSettings.SERVER_URL + "account/exists?user=" + PlayerPrefs.GetString("user"));
             UnityEngine.Debug.Log("Attempting to authenticate player: " + www.url);
 
-            while (!www.isDone)
-            {
-            }
+            yield return www;
 
             object response = null;
 
@@ -235,7 +242,6 @@ public class AuthScreenController : MonoBehaviour
 				OnPlayerFailedToAuthenticate("Server did not respond.");
 			}
             
-        }
     }
 
 	private IEnumerator CoroutineShowPopup(string message, ConfirmPopupController.ClickCallback callback)

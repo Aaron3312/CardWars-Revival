@@ -54,8 +54,9 @@ public class SLOTStartup : MonoBehaviour
 				SLOTGameSingleton<SLOTSceneManager>.GetInstance().LoadLevel(startupScene);
 				flag = true;
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
+				Debug.LogError("[WebDiag] SLOTStartup.LoadLevel failed: " + ex);
 				flag = false;
 			}
 			if (flag)

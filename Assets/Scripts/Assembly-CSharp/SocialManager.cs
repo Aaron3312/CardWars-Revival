@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
@@ -58,9 +59,12 @@ public class SocialManager
         WWW www = new WWW(SQSettings.SERVER_URL + "account/auth?user="+PlayerPrefs.GetString("user")+"&pass="+ PlayerPrefs.GetString("pass"));
         UnityEngine.Debug.Log("Attempting to authenticate player: " + www.url);
 		
-		while (!www.isDone)
-		{
-        }
+		WebCoroutineRunner.Run(OnAuthenticateResponse(www));
+	}
+
+	private IEnumerator OnAuthenticateResponse(WWW www)
+	{
+		yield return www;
 
 		object response = null;
 
