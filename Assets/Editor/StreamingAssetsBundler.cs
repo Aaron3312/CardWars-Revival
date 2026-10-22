@@ -44,7 +44,7 @@ public class StreamingAssetsBundler : IPreprocessBuildWithReport
 				writer.Write(bytes);
 			}
 		}
-		Debug.Log("[WebBoot] packed " + files.Length + " StreamingAssets files into " + WebStreamingAssets.BundleName);
+		UnityEngine.Debug.Log("[WebBoot] packed " + files.Length + " StreamingAssets files into " + WebStreamingAssets.BundleName);
 	}
 
 	// Creates Assets/Scene/Scenes/BootScene.unity and makes it the first scene in the build.

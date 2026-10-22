@@ -29,7 +29,7 @@ public static class WebGLBuild
 			options = buildOptions
 		};
 		BuildReport report = BuildPipeline.BuildPlayer(options);
-		Debug.Log("WebGL build result: " + report.summary.result + ", errors: " + report.summary.totalErrors + ", size: " + report.summary.totalSize);
+		UnityEngine.Debug.Log("WebGL build result: " + report.summary.result + ", errors: " + report.summary.totalErrors + ", size: " + report.summary.totalSize);
 		EditorApplication.Exit(report.summary.result == BuildResult.Succeeded ? 0 : 1);
 	}
 }

@@ -26,13 +26,13 @@ public class WebBootLoader : MonoBehaviour
 			if (request.result != UnityWebRequest.Result.Success)
 			{
 				status = "Failed to load game data: " + request.error;
-				Debug.LogError("[WebBoot] " + status + " (" + url + ")");
+				UnityEngine.Debug.LogError("[WebBoot] " + status + " (" + url + ")");
 				yield break;
 			}
 			Unpack(request.downloadHandler.data, WebStreamingAssets.Root);
 		}
 #endif
-		Debug.Log("[WebBoot] StreamingAssets ready at " + WebStreamingAssets.Root + ", loading " + nextScene);
+		UnityEngine.Debug.Log("[WebBoot] StreamingAssets ready at " + WebStreamingAssets.Root + ", loading " + nextScene);
 		SceneManager.LoadScene(nextScene);
 		yield break;
 	}
@@ -59,6 +59,6 @@ public class WebBootLoader : MonoBehaviour
 				count++;
 			}
 		}
-		Debug.Log("[WebBoot] unpacked " + count + " files to " + root);
+		UnityEngine.Debug.Log("[WebBoot] unpacked " + count + " files to " + root);
 	}
 }

@@ -9,7 +9,7 @@ public static class WebDiagnostics
 	{
 		SceneManager.sceneLoaded += delegate(Scene scene, LoadSceneMode mode)
 		{
-			Debug.Log("[WebDiag] scene loaded: " + scene.name + " (" + mode + ") at t=" + Time.realtimeSinceStartup);
+			UnityEngine.Debug.Log("[WebDiag] scene loaded: " + scene.name + " (" + mode + ") at t=" + Time.realtimeSinceStartup);
 		};
 	}
 }

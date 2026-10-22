@@ -56,7 +56,7 @@ public class SLOTStartup : MonoBehaviour
 			}
 			catch (Exception ex)
 			{
-				Debug.LogError("[WebDiag] SLOTStartup.LoadLevel failed: " + ex);
+				UnityEngine.Debug.LogError("[WebDiag] SLOTStartup.LoadLevel failed: " + ex);
 				flag = false;
 			}
 			if (flag)
