@@ -114,14 +114,19 @@ public class UIAnchor : MonoBehaviour
 			flag = true;
 			mRect = uiCamera.pixelRect;
 		}
-		float x = (mRect.xMin + mRect.xMax) * 0.5f;
-		float y = (mRect.yMin + mRect.yMax) * 0.5f;
+		Rect positionRect = mRect;
+		if (flag && side != Side.Center)
+		{
+			positionRect = SafeAreaUtil.Inset(mRect);
+		}
+		float x = (positionRect.xMin + positionRect.xMax) * 0.5f;
+		float y = (positionRect.yMin + positionRect.yMax) * 0.5f;
 		Vector3 vector3 = new Vector3(x, y, 0f);
 		if (side != Side.Center)
 		{
 			if (side == Side.Right || side == Side.TopRight || side == Side.BottomRight)
 			{
-				vector3.x = mRect.xMax;
+				vector3.x = positionRect.xMax;
 			}
 			else if (side == Side.Top || side == Side.Center || side == Side.Bottom)
 			{
@@ -129,11 +134,11 @@ public class UIAnchor : MonoBehaviour
 			}
 			else
 			{
-				vector3.x = mRect.xMin;
+				vector3.x = positionRect.xMin;
 			}
 			if (side == Side.Top || side == Side.TopRight || side == Side.TopLeft)
 			{
-				vector3.y = mRect.yMax;
+				vector3.y = positionRect.yMax;
 			}
 			else if (side == Side.Left || side == Side.Center || side == Side.Right)
 			{
@@ -141,7 +146,7 @@ public class UIAnchor : MonoBehaviour
 			}
 			else
 			{
-				vector3.y = mRect.yMin;
+				vector3.y = positionRect.yMin;
 			}
 		}
 		float width = mRect.width;

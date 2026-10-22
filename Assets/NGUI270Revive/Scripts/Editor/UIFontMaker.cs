@@ -79,8 +79,8 @@ public class UIFontMaker : EditorWindow
 
 		if (NGUISettings.font != null && NGUISettings.font.name == NGUISettings.fontName)
 		{
-			prefabPath = AssetDatabase.GetAssetPath(NGUISettings.font.gameObject.GetInstanceID());
-			if (NGUISettings.font.material != null) matPath = AssetDatabase.GetAssetPath(NGUISettings.font.material.GetInstanceID());
+			prefabPath = AssetDatabase.GetAssetPath(NGUISettings.font.gameObject);
+			if (NGUISettings.font.material != null) matPath = AssetDatabase.GetAssetPath(NGUISettings.font.material);
 		}
 
 		// Assume default values if needed
