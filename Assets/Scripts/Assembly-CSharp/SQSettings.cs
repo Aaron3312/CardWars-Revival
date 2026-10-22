@@ -20,6 +20,10 @@ public class SQSettings
 
 	private static bool offlineMode;
 
+	private static bool skipTutorial;
+
+	private static bool initialized;
+
 	private static string bundleIdentifier;
 
 	private static string bundleVersion;
@@ -113,6 +117,19 @@ public class SQSettings
 		}
 	}
 
+	// server_settings.json "skip_tutorial": turns on the debug stopTutorial flag. Reads the settings on first use.
+	public static bool SkipTutorial
+	{
+		get
+		{
+			if (!initialized)
+			{
+				Init();
+			}
+			return skipTutorial;
+		}
+	}
+
 	public static bool DebugDisplayControllers
 	{
 		get
@@ -145,6 +162,7 @@ public class SQSettings
 		Dictionary<string, object> dictionary = (Dictionary<string, object>)Json.Deserialize(empty);
 		serverUrl = (string)dictionary["server_url"];
 		offlineMode = dictionary.ContainsKey("offline_mode") && (bool)dictionary["offline_mode"];
+		skipTutorial = dictionary.ContainsKey("skip_tutorial") && (bool)dictionary["skip_tutorial"];
 		cdnUrl = (string)dictionary["server_url"] + "/static/";
         manifestUrl = (string)dictionary["server_url"] + "/static/manifest.json";
         streamingAssetsFile = TFUtils.GetStreamingAssetsFile("global_settings.json");
@@ -165,5 +183,6 @@ public class SQSettings
 		{
 			patchingFileLimit = 10;
 		}
+		initialized = true;
 	}
 }
