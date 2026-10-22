@@ -1,4 +1,5 @@
 {
     "type" : "server_settings",
-    "server_url" : "http://cardwars.retroretreat.net/"
+    "server_url" : "http://cardwars.retroretreat.net/",
+    "offline_mode" : true
 }

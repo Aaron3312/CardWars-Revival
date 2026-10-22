@@ -36,6 +36,7 @@ public class TFServer
 	{
 		this.cookies = cookies;
 		TFWebClient.maxConnections = maxConnections;
+		shortCircuitRequests = SQSettings.OfflineMode;
 	}
 
 	public void ShortCircuitAllRequests()

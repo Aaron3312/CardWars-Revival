@@ -29,8 +29,31 @@ public class TFWebFileServer
 		this.cookies = cookies;
 	}
 
+	// In offline mode there is no server: reads report "not found" and writes report success.
+	private static bool AnswerOffline(string uri, HttpStatusCode status, FileCallbackHandler callback, object userData)
+	{
+		if (!SQSettings.OfflineMode)
+		{
+			return false;
+		}
+		TFUtils.DebugLog("Offline mode, not requesting " + uri);
+		if (callback != null)
+		{
+			TFWebFileResponse tFWebFileResponse = new TFWebFileResponse();
+			tFWebFileResponse.StatusCode = status;
+			tFWebFileResponse.URI = uri;
+			tFWebFileResponse.UserData = userData;
+			callback(tFWebFileResponse);
+		}
+		return true;
+	}
+
 	public void GetFile(string uri, WebHeaderCollection headers, FileCallbackHandler callback, object userData = null)
 	{
+		if (AnswerOffline(uri, HttpStatusCode.NotFound, callback, userData))
+		{
+			return;
+		}
 		TFUtils.DebugLog("Getting file " + uri);
 		using (TFWebClient tFWebClient = new TFWebClient(cookies))
 		{
@@ -86,6 +109,10 @@ public class TFWebFileServer
 
 	public void SaveFile(string uri, string contents, WebHeaderCollection headers, FileCallbackHandler callback, object userdata = null)
 	{
+		if (AnswerOffline(uri, HttpStatusCode.OK, callback, userdata))
+		{
+			return;
+		}
 		using (TFWebClient tFWebClient = new TFWebClient(cookies))
 		{
 			tFWebClient.NetworkError += OnNetworkError;
@@ -236,6 +263,10 @@ public class TFWebFileServer
 
 	public void DeleteFile(string uri, WebHeaderCollection headers, FileCallbackHandler callback, object userData = null)
 	{
+		if (AnswerOffline(uri, HttpStatusCode.OK, callback, userData))
+		{
+			return;
+		}
 		TFUtils.DebugLog("Deleting file " + uri, "saveload");
 		HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(new Uri(uri));
 		httpWebRequest.Method = "DELETE";

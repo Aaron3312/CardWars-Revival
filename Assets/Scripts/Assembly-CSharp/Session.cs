@@ -706,6 +706,10 @@ public class Session : IDisposable
 
 	public void ValidateLastPatch()
 	{
+		if (SQSettings.OfflineMode)
+		{
+			return;
+		}
 		lock (_validationLock)
 		{
 			if (_validationThread != null)
@@ -765,6 +769,11 @@ public class Session : IDisposable
 
 	public void StartPatch()
 	{
+		if (SQSettings.OfflineMode)
+		{
+			_finishedPatching = true;
+			return;
+		}
 		TFUtils.DebugLog("Starting to Patch content");
 		_finishedPatching = false;
 		UpdatePatching();

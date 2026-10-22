@@ -18,6 +18,8 @@ public class SQSettings
 
 	private static bool debugDisplayControllers;
 
+	private static bool offlineMode;
+
 	private static string bundleIdentifier;
 
 	private static string bundleVersion;
@@ -101,6 +103,16 @@ public class SQSettings
 		}
 	}
 
+	// When true (server_settings.json "offline_mode"), no request is sent to the game server:
+	// logins, saves, patching and version checks are answered locally.
+	public static bool OfflineMode
+	{
+		get
+		{
+			return offlineMode;
+		}
+	}
+
 	public static bool DebugDisplayControllers
 	{
 		get
@@ -132,6 +144,7 @@ public class SQSettings
 		empty = ((!streamingAssetsFile.Contains("://")) ? File.ReadAllText(streamingAssetsFile) : getJsonPath(streamingAssetsFile));
 		Dictionary<string, object> dictionary = (Dictionary<string, object>)Json.Deserialize(empty);
 		serverUrl = (string)dictionary["server_url"];
+		offlineMode = dictionary.ContainsKey("offline_mode") && (bool)dictionary["offline_mode"];
 		cdnUrl = (string)dictionary["server_url"] + "/static/";
         manifestUrl = (string)dictionary["server_url"] + "/static/manifest.json";
         streamingAssetsFile = TFUtils.GetStreamingAssetsFile("global_settings.json");

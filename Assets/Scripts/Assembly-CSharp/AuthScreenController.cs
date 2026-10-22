@@ -170,7 +170,14 @@ public class AuthScreenController : MonoBehaviour
             PlayerPrefs.SetString("user", Username);
             PlayerPrefs.SetString("pass", Password);
 
-            StartCoroutine(AccountExistsRoutine());
+            if (SQSettings.OfflineMode)
+            {
+                Invoke("SocialLogin", 0.5f);
+            }
+            else
+            {
+                StartCoroutine(AccountExistsRoutine());
+            }
         }
     }
 
