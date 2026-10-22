@@ -541,7 +541,7 @@ public class TFUtils
 
 	public static string GetStreamingAssetsPath()
 	{
-		return Application.streamingAssetsPath;
+		return WebStreamingAssets.Root;
 	}
 
 	public static string GetStreamingAssetsSubfolder(string path)

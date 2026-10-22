@@ -97,6 +97,10 @@ public class DebugFlagsScript : MonoBehaviour
 				}
 			}
 		}
+		if (SQSettings.SkipTutorial)
+		{
+			GlobalFlags.Instance.stopTutorial = true;
+		}
 		if (GlobalFlags.Instance.stopTutorial)
 		{
 			stopTutorial = true;

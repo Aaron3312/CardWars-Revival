@@ -1,7 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Security.Policy;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -56,12 +56,20 @@ public class SocialManager
     public virtual void AuthenticatePlayer(bool silent)
     {
 		authed = false;
+		if (SQSettings.OfflineMode)
+		{
+			playerDidAuthenticate();
+			return;
+		}
         WWW www = new WWW(SQSettings.SERVER_URL + "account/auth?user="+PlayerPrefs.GetString("user")+"&pass="+ PlayerPrefs.GetString("pass"));
         UnityEngine.Debug.Log("Attempting to authenticate player: " + www.url);
 		
-		while (!www.isDone)
-		{
-        }
+		WebCoroutineRunner.Run(OnAuthenticateResponse(www));
+	}
+
+	private IEnumerator OnAuthenticateResponse(WWW www)
+	{
+		yield return www;
 
 		object response = null;
 

@@ -18,6 +18,12 @@ public class SQSettings
 
 	private static bool debugDisplayControllers;
 
+	private static bool offlineMode;
+
+	private static bool skipTutorial;
+
+	private static bool initialized;
+
 	private static string bundleIdentifier;
 
 	private static string bundleVersion;
@@ -101,6 +107,29 @@ public class SQSettings
 		}
 	}
 
+	// When true (server_settings.json "offline_mode"), no request is sent to the game server:
+	// logins, saves, patching and version checks are answered locally.
+	public static bool OfflineMode
+	{
+		get
+		{
+			return offlineMode;
+		}
+	}
+
+	// server_settings.json "skip_tutorial": turns on the debug stopTutorial flag. Reads the settings on first use.
+	public static bool SkipTutorial
+	{
+		get
+		{
+			if (!initialized)
+			{
+				Init();
+			}
+			return skipTutorial;
+		}
+	}
+
 	public static bool DebugDisplayControllers
 	{
 		get
@@ -112,15 +141,6 @@ public class SQSettings
 	private SQSettings()
 	{
 	}
-
-	[DllImport("__Internal")]
-	private static extern string getBundleIdentifier();
-
-	[DllImport("__Internal")]
-	private static extern string getCFBundleVersion();
-
-	[DllImport("__Internal")]
-	private static extern string getCFBundleShortVersion();
 
 	private static string getJsonPath(string filePath)
 	{
@@ -141,6 +161,8 @@ public class SQSettings
 		empty = ((!streamingAssetsFile.Contains("://")) ? File.ReadAllText(streamingAssetsFile) : getJsonPath(streamingAssetsFile));
 		Dictionary<string, object> dictionary = (Dictionary<string, object>)Json.Deserialize(empty);
 		serverUrl = (string)dictionary["server_url"];
+		offlineMode = dictionary.ContainsKey("offline_mode") && (bool)dictionary["offline_mode"];
+		skipTutorial = dictionary.ContainsKey("skip_tutorial") && (bool)dictionary["skip_tutorial"];
 		cdnUrl = (string)dictionary["server_url"] + "/static/";
         manifestUrl = (string)dictionary["server_url"] + "/static/manifest.json";
         streamingAssetsFile = TFUtils.GetStreamingAssetsFile("global_settings.json");
@@ -161,5 +183,6 @@ public class SQSettings
 		{
 			patchingFileLimit = 10;
 		}
+		initialized = true;
 	}
 }

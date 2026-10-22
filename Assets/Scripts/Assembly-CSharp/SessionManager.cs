@@ -225,7 +225,7 @@ public class SessionManager : MonoBehaviour
 
 	public string GetStreamingAssetsPath(string fname)
 	{
-		string result = Path.Combine(Application.streamingAssetsPath, fname);
+		string result = Path.Combine(WebStreamingAssets.Root, fname);
 		if (DebugFlagsScript.GetInstance().UseLocalJsonFiles)
 		{
 			return result;

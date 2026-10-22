@@ -18,12 +18,14 @@ public class TFWebClient : WebClient
 	{
 		get
 		{
-			return maxConnections;
+			return _maxConnections;
 		}
 		set
 		{
 			_maxConnections = Math.Max(1, value);
+#if !UNITY_WEBGL
 			ServicePointManager.DefaultConnectionLimit = _maxConnections;
+#endif
 		}
 	}
 
@@ -33,7 +35,9 @@ public class TFWebClient : WebClient
 	public TFWebClient(CookieContainer cookieContainer)
 	{
 		cookies = cookieContainer;
+#if !UNITY_WEBGL
 		ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
+#endif
     }
 
     protected override WebRequest GetWebRequest(Uri address)
