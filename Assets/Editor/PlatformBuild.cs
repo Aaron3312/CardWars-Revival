@@ -6,6 +6,7 @@ using UnityEditor.Build.Reporting;
 using UnityEngine;
 
 // Command-line player builds for the non-web platforms.
+// Add -simulator for an iOS Simulator build, -development for a development build.
 // Usage: Unity -batchmode -quit -projectPath . -buildTarget StandaloneOSX -executeMethod PlatformBuild.Build -buildPath Build/Mac/CardWars.app [-development]
 public static class PlatformBuild
 {
@@ -45,6 +46,8 @@ public static class PlatformBuild
 		else if (target == BuildTarget.iOS)
 		{
 			PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.iOS, BundleId);
+			PlayerSettings.iOS.targetOSVersionString = "15.0";
+			PlayerSettings.iOS.sdkVersion = Environment.GetCommandLineArgs().Contains("-simulator") ? iOSSdkVersion.SimulatorSDK : iOSSdkVersion.DeviceSDK;
 		}
 	}
 
