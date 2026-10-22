@@ -20,9 +20,9 @@ public class LocalizedAsset : MonoBehaviour
 		{
 			return;
 		}
-		if (target.GetType() == typeof(GUITexture))
+		if (target.GetType() == typeof(UnityEngine.UI.RawImage))
 		{
-			GUITexture gUITexture = (GUITexture)target;
+			UnityEngine.UI.RawImage gUITexture = (UnityEngine.UI.RawImage)target;
 			if (gUITexture.texture != null)
 			{
 				Texture texture = (Texture)Language.GetAsset(gUITexture.texture.name);

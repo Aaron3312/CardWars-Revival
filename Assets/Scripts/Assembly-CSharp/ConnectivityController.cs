@@ -41,17 +41,7 @@ public class ConnectivityController : MonoBehaviour
 
 	public bool CheckInternet()
 	{
-		switch (Network.TestConnection())
-		{
-		case ConnectionTesterStatus.PublicIPIsConnectable:
-			isValid = true;
-			break;
-		default:
-			isValid = false;
-			break;
-		case ConnectionTesterStatus.Undetermined:
-			break;
-		}
+		isValid = Application.internetReachability != NetworkReachability.NotReachable;
 		if (!isValid)
 		{
 		}
